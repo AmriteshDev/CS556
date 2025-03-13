@@ -1,0 +1,36 @@
+# Compiler and flags
+CXX = g++             #Defines the C++ compiler.
+CXXFLAGS = -Wall -O2     # Enables warnings and optimizations.
+
+# Directories
+SRC_DIR = src
+INCLUDE_DIR = include
+OBJ_DIR = obj
+
+# Source files and object files
+SRCS = $(wildcard $(SRC_DIR)/*.cpp)     # finds all .cpp files inside the src/ folder.
+OBJS = $(patsubst $(SRC_DIR)/%.cpp, $(OBJ_DIR)/%.o, $(SRCS))   # converts each .cpp file into a corresponding .o (object) file.
+
+# Final Executable name
+TARGET = bank_simulation
+
+# Default rule
+all: $(TARGET)      # default rule that runs when you type make. # It depends on $(TARGET), which means it will compile the program
+
+# Linking the executable # command compiles everything into bank_simulation
+$(TARGET): $(OBJS)
+	$(CXX) $(CXXFLAGS) -o $@ $^
+
+# Compiling source files  # compiles each .cpp file into a .o file.
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp | $(OBJ_DIR)
+	$(CXX) $(CXXFLAGS) -I$(INCLUDE_DIR) -c $< -o $@
+
+# Create object directory if it doesn't exist
+$(OBJ_DIR):
+	mkdir -p $(OBJ_DIR)
+
+# Clean the build
+clean:
+	rm -rf $(OBJ_DIR) $(TARGET)
+
+.PHONY: all clean
