@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include <cmath>
 
-// Function to generate exponential random variables
+// Function to generate exponential random number 
 inline double expRandom(double lambda) {
     return -log(1.0 - ((double)rand() / RAND_MAX)) / lambda;
 }
